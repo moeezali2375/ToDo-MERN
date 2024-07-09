@@ -4,6 +4,7 @@ const {
   addTodo,
   editTodo,
   deleteTodo,
+  markTodo,
 } = require("../controllers/todo");
 
 const router = express.Router();
@@ -11,6 +12,8 @@ const router = express.Router();
 router.get("/", fetchTodos);
 
 router.post("/", addTodo);
+
+router.put("/mark/:id", markTodo);
 
 router.put("/:id", editTodo);
 

@@ -21,6 +21,26 @@ const addTodo = async (req, res) => {
   }
 };
 
+const markTodo = async (req, res) => {
+  try {
+    const id = req.params.id;
+    if (!id) throw new Error("Please send id of the ToDo");
+
+    const todo = await Todo.findById(id);
+    if (!todo) throw new Error("Todo item not found");
+
+    const updatedTodo = await Todo.findByIdAndUpdate(
+      id,
+      { completed: !todo.completed },
+      { new: true }
+    );
+
+    res.status(200).json({ msg: updatedTodo });
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+};
+
 const editTodo = async (req, res) => {
   try {
     const id = req.params.id;
@@ -55,4 +75,5 @@ module.exports = {
   addTodo,
   editTodo,
   deleteTodo,
+  markTodo,
 };
