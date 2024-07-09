@@ -1,10 +1,21 @@
 import React from "react";
+import axios from "axios"
+
+const URL="http://localhost:3000/todo/";
 
 const ShowTask = ({ taskList, setTaskList, task, setTask }) => {
-    console.log('showTask');
-    const handleEdit = id => {
-        const task = taskList.find(task => task.id === id);
-        setTask(task);
+    const handleEdit = async (id) => {
+        try {
+            const task = taskList.find(task => task.id === id);
+            setTask(task);
+    
+            await axios.put(URL+`${id}`, {
+                name: task.name
+            });
+            console.log('Task updated successfully');
+        } catch (error) {
+            console.error('Error updating task:', error);
+        }
     }
 
     const handleDelete = id => {
