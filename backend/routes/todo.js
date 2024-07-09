@@ -1,14 +1,19 @@
-const express=require("express");
-const { fetchTodos,addTodo,editTodo,deleteTodo } = require("../controllers/todo");
+const express = require("express");
+const {
+  fetchTodos,
+  addTodo,
+  editTodo,
+  deleteTodo,
+} = require("../controllers/todo");
 
-const router=express.Router();
+const router = express.Router();
 
-router.get("/",fetchTodos);
+router.get("/", fetchTodos);
 
-router.post("/",addTodo);
+router.post("/", addTodo);
 
-router.put("/:id",editTodo);
+router.put("/:id", editTodo);
 
-router.delete("/:id",deleteTodo);
+router.delete("/:id", deleteTodo);
 
-module.exports=router;
+module.exports = router;
