@@ -6,7 +6,7 @@ require("dotenv").config();
 
 const app=express();
 const PORT=process.env.PORT
-// connectDB();
+connectDB();
 
 //! Middlewares
 app.use(express.json());
