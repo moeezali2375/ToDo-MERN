@@ -1,7 +1,6 @@
 import logo from "../assets/logo.svg";
 
 const Header = ({children,theme,setTheme}) => {
-    console.log('header');
     return (
         <header>
             <span className="logo">

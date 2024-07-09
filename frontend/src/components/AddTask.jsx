@@ -1,35 +1,36 @@
 import React from "react";
+import axios from "axios";
+const URL = "http://localhost:3001/todo/";
 
 const AddTask = ({ taskList, setTaskList, task, setTask }) => {
-  console.log("Add task");
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const date = new Date();
-    console.log(task);
-    if (task.id) {
-      // Update existing task in the list
-      const newList = taskList.map((todo) => {
-        return todo.id === task.id
-          ? {
-              ...task,
-              name: e.target.task.value,
-              time: `${date.toLocaleTimeString()} ${date.toLocaleDateString()}`,
-            }
-          : todo;
-      });
-
-      setTaskList(newList);
-      setTask({});
+    //! Handle Edit Case
+    if (task._id) {
+      try {
+        const result = await axios.put(URL + `${task._id}`, {
+          newName: e.target.task.value,
+        });
+        const updatedTask = result.data.msg;
+        const newList = taskList.map((todo) => {
+          return todo._id === task._id ? updatedTask : todo;
+        });
+        setTaskList(newList);
+        setTask({});
+      } catch (error) {
+        console.log("Error: " + error.message);
+      }
     } else {
-      const newTask = {
-        id: date.getTime(),
-        name: e.target.task.value,
-        time: `${date.toLocaleTimeString()} ${date.toLocaleDateString()}`,
-      };
-
-      setTaskList([...taskList, newTask]);
-      setTask({});
+      //! Handle New Task Case
+      if (!task.name) return;
+      try {
+        const result = await axios.post(URL, { name: task.name });
+        const newTask = result.data.msg;
+        setTask({});
+        setTaskList([...taskList, newTask]);
+      } catch (error) {
+        console.log("Error: " + error.message);
+      }
     }
   };
 
